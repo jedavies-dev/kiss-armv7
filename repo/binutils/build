@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+cat > makeinfo <<EOF
+#!/bin/sh
+printf 'makeinfo (GNU texinfo) 5.2\n'
+EOF
+
+chmod +x makeinfo
+export PATH=$PATH:$PWD
+
+./configure \
+    --prefix=/usr \
+    --build=armv7-linux-musleabihf \
+    --host=armv7-linux-musleabihf \
+    --enable-targets=armv7-linux-musleabihf \
+    --disable-multilib \
+    --disable-nls \
+    --disable-werror \
+    --with-mmap \
+    --with-system-zlib
+
+make
+make DESTDIR="$1" install
